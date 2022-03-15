@@ -12,6 +12,32 @@
     <title>Weather Dashboard</title>
 </head>
 <body>
+    <header class="header text-white">
+        <h1>Weather Dashboard</h1>
+    </header>
+    <main class="container">
+        <div class="row">
+            <div class="col-3">
+                <h2>Search for a City:</h2>
+                <form id="city-form">
+                    <input name="city" id="city" type="text" autofocus="true" class="form-input" placeholder="San Diego">
+                    <button type="submit" class="btn">Search</button>
+                </form>
+                <div id="search-history">
+                    Placeholder text
+                </div>
+            </div>
+            <div class="col-9">
+                <div id="current-weather">
+                    Placeholder for current weather
+                </div>
+                <div id="forecast">
+                    <h3>5-Day Forecast:</h3>
+                </div>
+            </div>
+        </div>
+    </main>
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>

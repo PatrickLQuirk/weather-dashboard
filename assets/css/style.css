@@ -1,8 +1,73 @@
+:root {
+    --light-dark: #6f6866;
+}
+
 .header {
-    /* change this to a gradient */
-    background-color: rgb(82, 108, 191);
+    text-align: center;
+    background-color: #526cbf;
+    background-image: linear-gradient(90deg, #526cbf, #230a53);
+}
+
+.header h1 {
+    font-size: 30px;
+    padding: 10px;
 }
 
 .text-white {
     color: white;
+}
+
+.pos-relative {
+    position: relative;
+}
+
+#city-form {
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--light-dark);
+}
+
+#city-form * {
+    margin: 10px 0;
+    width: 100%;
+}
+
+#city {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 2px solid var(--light-dark);
+    border-radius: .3rem;
+}
+
+#search-history {
+    padding-top: 10px;
+}
+
+.city-button {
+    margin: 10px 0;
+    width: 100%;
+}
+
+#current-weather {
+    border: 2px solid black;
+    padding-left: 5px;
+    margin-bottom: 10px;
+}
+
+.uv-index {
+    background-color: #4c7c54;
+    padding: 3px 10px;
+    font-size: 0.75rem;
+    border-radius: 5px;
+}
+
+#forecast-days {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.forecast-day {
+    background-color: #3c475a;
+    padding: 5px 40px 20px 5px;
+    margin-bottom: 10px;
 }

@@ -7,15 +7,18 @@ var forecastDaysEl = document.querySelector("#forecast-days");
 var formSubmitHandler = function(event) {
     event.preventDefault();
     var cityName = cityInputEl.value.trim();
-    // before submitting this to the onecall api, we need to get the coordinates of the city
-    // To do this, we will 
-    cityAPIUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=" + apiKey;
+    getCoordinates(cityName);
+    cityInputEl.value = "";
+}
+
+var getCoordinates = function(cityName) {
+    var cityAPIUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=" + apiKey;
     fetch(cityAPIUrl).then(function(response) {
         if(response.ok) {
             response.json().then(function(data) {
                 var lat = data[0].lat;
                 var lon = data[0].lon;
-                getWeather(lat, lon);
+                getWeather(cityName, lat, lon);
             });
         } else {
             alert("There was a problem with your request.");
@@ -25,13 +28,13 @@ var formSubmitHandler = function(event) {
     });
 }
 
-var getWeather = function(lat, lon) {
+var getWeather = function(cityName, lat, lon) {
     apiUrl = "http://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&units=imperial";
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
                 console.log(data);
-                displayWeather(data);
+                displayWeather(cityName, data);
             });
         }
         else {
@@ -43,9 +46,7 @@ var getWeather = function(lat, lon) {
     });
 };
 
-var displayWeather = function(data) {
-    var cityName = cityInputEl.value.trim();
-    cityInputEl.value = "";
+var displayWeather = function(cityName, data) {
     currentWeatherEl.innerHTML = "";
     // var weatherObj = {
     //     current: {

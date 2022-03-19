@@ -71,3 +71,13 @@
     padding: 5px 40px 20px 5px;
     margin-bottom: 10px;
 }
+
+.current-weather-icon {
+    display: inline-block;
+    height: 50px;
+}
+
+.daily-weather-icon {
+    display: inline-block;
+    height: 45px;
+}

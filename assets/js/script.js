@@ -31,6 +31,7 @@ var getWeather = function(lat, lon) {
                 console.log(data);
                 var weatherObj = {
                     current: {
+                        icon: data.current.weather[0].icon,
                         temp: data.current.temp,
                         wind: data.current.wind_speed,
                         humidity: data.current.humidity,
@@ -41,6 +42,7 @@ var getWeather = function(lat, lon) {
                 };
                 for (i=1; i <= 5; i++) {
                     weatherObj.daily[i] = {
+                        icon: data.current.weather[0].icon,
                         temp: data.daily[i].temp.max,
                         wind: data.daily[i].wind_speed,
                         humidity: data.daily[i].humidity

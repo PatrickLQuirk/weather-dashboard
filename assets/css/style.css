@@ -31,7 +31,7 @@
     width: 100%;
 }
 
-#city {
+#city-input {
     padding-top: 10px;
     padding-bottom: 10px;
     border: 2px solid var(--light-dark);

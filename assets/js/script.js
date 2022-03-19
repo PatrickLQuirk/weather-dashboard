@@ -48,31 +48,18 @@ var getWeather = function(cityName, lat, lon) {
 
 var displayWeather = function(cityName, data) {
     currentWeatherEl.innerHTML = "";
-    // var weatherObj = {
-    //     current: {
-    //         icon: data.current.weather[0].icon,
-    //         temp: data.current.temp,
-    //         wind: data.current.wind_speed,
-    //         humidity: data.current.humidity,
-    //         uvIndex: data.current.uvi
-    //     },
-    //     daily: {
-    //     }
-    // };
-    // for (i=1; i <= 5; i++) {
-    //     weatherObj.daily[i] = {
-    //         icon: data.daily[i].weather[0].icon,
-    //         temp: data.daily[i].temp.max,
-    //         wind: data.daily[i].wind_speed,
-    //         humidity: data.daily[i].humidity
-    //     };
-    // };
+    
+    // get current date as moment object
+    // this moment object will be manipulated to display future dates in the daily forecast
+    var dateForDisplay = moment();
 
     // current weather display
     currentWeatherHeaderEl = document.createElement("h2");
     var currentIconCode = data.current.weather[0].icon;
-    // change date to be dynamically generated
-    currentWeatherHeaderEl.innerHTML = cityName + " (3/18/2022)<img class='current-weather-icon' src='http://openweathermap.org/img/wn/" + currentIconCode + "@2x.png'>";
+    // I am splitting the setting of the innerHTML into several lines in an effort to improve readability
+    var currentImageLink = "http://openweathermap.org/img/wn/" + currentIconCode + "@2x.png";
+    var currentImageHTML = "<img class='current-weather-icon' src=" + currentImageLink + ">";
+    currentWeatherHeaderEl.innerHTML = cityName + " (" + dateForDisplay.format("M/D/YYYY") + ")" + currentImageHTML;
     currentWeatherEl.appendChild(currentWeatherHeaderEl);
 
     var currentTempEl = document.createElement("p");
@@ -99,9 +86,10 @@ var displayWeather = function(cityName, data) {
         forecastDayEl.className = "forecast-day text-white";
         forecastDayEl.setAttribute("data-days-ahead", i);
         
+        dateForDisplay.add(1, "days");
         var forecastDateEl = document.createElement("h4");
         // change date to be dynamically generated
-        forecastDateEl.textContent = "3/19/2022";
+        forecastDateEl.textContent = dateForDisplay.format("M/D/YYYY");
         forecastDayEl.appendChild(forecastDateEl);
 
         var forecastIconCode = data.daily[i].weather[0].icon;

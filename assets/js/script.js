@@ -12,7 +12,7 @@ var formSubmitHandler = function(event) {
 }
 
 var getCoordinates = function(cityName) {
-    var cityAPIUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=" + apiKey;
+    var cityAPIUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=" + apiKey;
     fetch(cityAPIUrl).then(function(response) {
         if(response.ok) {
             response.json().then(function(data) {
@@ -29,7 +29,7 @@ var getCoordinates = function(cityName) {
 }
 
 var getWeather = function(cityName, lat, lon) {
-    apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&units=imperial";
+    apiUrl = "http://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&units=imperial";
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
@@ -57,7 +57,7 @@ var displayWeather = function(cityName, data) {
     currentWeatherHeaderEl = document.createElement("h2");
     var currentIconCode = data.current.weather[0].icon;
     // I am splitting the setting of the innerHTML into several lines in an effort to improve readability
-    var currentImageLink = "https://openweathermap.org/img/wn/" + currentIconCode + "@2x.png";
+    var currentImageLink = "http://openweathermap.org/img/wn/" + currentIconCode + "@2x.png";
     var currentImageHTML = "<img class='current-weather-icon' src=" + currentImageLink + ">";
     currentWeatherHeaderEl.innerHTML = cityName + " (" + dateForDisplay.format("M/D/YYYY") + ")" + currentImageHTML;
     currentWeatherEl.appendChild(currentWeatherHeaderEl);
@@ -95,7 +95,7 @@ var displayWeather = function(cityName, data) {
         var forecastIconCode = data.daily[i].weather[0].icon;
         var forecastIconEl = document.createElement("img");
         forecastIconEl.className = "daily-weather-icon";
-        forecastIconEl.setAttribute("src", "https://openweathermap.org/img/wn/" + forecastIconCode + "@2x.png");
+        forecastIconEl.setAttribute("src", "http://openweathermap.org/img/wn/" + forecastIconCode + "@2x.png");
         forecastDayEl.appendChild(forecastIconEl);
 
         var forecastTempEl = document.createElement("p");

@@ -16,6 +16,15 @@ var formSubmitHandler = function(event) {
     cityInputEl.value = "";
 }
 
+var buttonClickHandler = function(event) {
+    var targetEl = event.target;
+    if (targetEl.matches(".city-button")) {
+        var cityName = targetEl.textContent;
+        getCoordinates(cityName);
+        saveNewSearch(cityName);
+    }
+}
+
 var getCoordinates = function(cityName) {
     var cityAPIUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=" + apiKey;
     fetch(cityAPIUrl).then(function(response) {
@@ -167,3 +176,4 @@ var displaySearches = function() {
 displaySearches();
 
 cityFormEl.addEventListener("submit", formSubmitHandler);
+searchHistoryEl.addEventListener("click", buttonClickHandler);

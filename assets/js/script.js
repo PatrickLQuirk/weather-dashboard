@@ -12,8 +12,7 @@ var formSubmitHandler = function(event) {
     event.preventDefault();
     var cityName = cityInputEl.value.trim();
     getCoordinates(cityName);
-    pastSearches.unshift(cityName);
-    saveSearches();
+    saveNewSearch(cityName);
     cityInputEl.value = "";
 }
 
@@ -55,7 +54,7 @@ var getWeather = function(cityName, lat, lon) {
 var displayWeather = function(cityName, data) {
     currentWeatherEl.innerHTML = "";
     forecastDaysEl.innerHTML = "";
-    
+
     // get current date as moment object
     // this moment object will be manipulated to display future dates in the daily forecast
     var dateForDisplay = moment();
@@ -128,6 +127,18 @@ var loadSearches = function() {
     };
 };
 
+var saveNewSearch = function(cityName) {
+    // add the new city to the beginning of the list of searches
+    pastSearches.unshift(cityName);
+
+    // limit the number of stored past searches to 8
+    if (pastSearches.length > 8) {
+        pastSearches = pastSearches.slice(0, 8);
+    };
+
+    saveSearches();
+}
+
 var saveSearches = function() {
     localStorage.setItem("searches", JSON.stringify(pastSearches));
     displaySearches();
@@ -136,7 +147,7 @@ var saveSearches = function() {
 var displaySearches = function() {
     loadSearches();
     searchHistoryEl.innerHTML = "";
-    var maxDisplayed = Math.min(10, pastSearches.length);
+    var maxDisplayed = Math.min(8, pastSearches.length);
     for (i=0; i < maxDisplayed; i++) {
         cityForButton = pastSearches[i];
 

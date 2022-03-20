@@ -128,7 +128,11 @@ var loadSearches = function() {
 };
 
 var saveNewSearch = function(cityName) {
-    // add the new city to the beginning of the list of searches
+    // check whether the new city has already been searched for
+    var filteredPastSearches = pastSearches.filter(function(oldCity) {
+        return oldCity !== cityName;
+    });
+    pastSearches = filteredPastSearches;
     pastSearches.unshift(cityName);
 
     // limit the number of stored past searches to 8

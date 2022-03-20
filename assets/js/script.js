@@ -3,12 +3,26 @@ var cityFormEl = document.querySelector("#city-form");
 var cityInputEl = document.querySelector("#city-input");
 var currentWeatherEl = document.querySelector("#current-weather");
 var forecastDaysEl = document.querySelector("#forecast-days");
+var searchHistoryEl = document.querySelector("#search-history");
+
+// array to store the past searches of the user, with more recent searches coming first.
+var pastSearches = [];
 
 var formSubmitHandler = function(event) {
     event.preventDefault();
     var cityName = cityInputEl.value.trim();
     getCoordinates(cityName);
+    saveNewSearch(cityName);
     cityInputEl.value = "";
+}
+
+var buttonClickHandler = function(event) {
+    var targetEl = event.target;
+    if (targetEl.matches(".city-button")) {
+        var cityName = targetEl.textContent;
+        getCoordinates(cityName);
+        saveNewSearch(cityName);
+    }
 }
 
 var getCoordinates = function(cityName) {
@@ -48,7 +62,8 @@ var getWeather = function(cityName, lat, lon) {
 
 var displayWeather = function(cityName, data) {
     currentWeatherEl.innerHTML = "";
-    
+    forecastDaysEl.innerHTML = "";
+
     // get current date as moment object
     // this moment object will be manipulated to display future dates in the daily forecast
     var dateForDisplay = moment();
@@ -112,7 +127,53 @@ var displayWeather = function(cityName, data) {
 
         forecastDaysEl.appendChild(forecastDayEl);
     }
-
 };
 
+var loadSearches = function() {
+    pastSearches = JSON.parse(localStorage.getItem("searches"));
+    if (!pastSearches) {
+        pastSearches = [];
+    };
+};
+
+var saveNewSearch = function(cityName) {
+    // check whether the new city has already been searched for
+    var filteredPastSearches = pastSearches.filter(function(oldCity) {
+        return oldCity !== cityName;
+    });
+    pastSearches = filteredPastSearches;
+    pastSearches.unshift(cityName);
+
+    // limit the number of stored past searches to 8
+    if (pastSearches.length > 8) {
+        pastSearches = pastSearches.slice(0, 8);
+    };
+
+    saveSearches();
+}
+
+var saveSearches = function() {
+    localStorage.setItem("searches", JSON.stringify(pastSearches));
+    displaySearches();
+};
+
+var displaySearches = function() {
+    loadSearches();
+    searchHistoryEl.innerHTML = "";
+    var maxDisplayed = Math.min(8, pastSearches.length);
+    for (i=0; i < maxDisplayed; i++) {
+        cityForButton = pastSearches[i];
+
+        var cityButtonEl = document.createElement("button");
+        cityButtonEl.className = "btn btn-secondary city-button";
+        cityButtonEl.setAttribute("data-city", cityForButton);
+        cityButtonEl.textContent = cityForButton;
+
+        searchHistoryEl.appendChild(cityButtonEl);
+    }
+}
+
+displaySearches();
+
 cityFormEl.addEventListener("submit", formSubmitHandler);
+searchHistoryEl.addEventListener("click", buttonClickHandler);
